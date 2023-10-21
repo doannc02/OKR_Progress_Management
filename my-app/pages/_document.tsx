@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import User from "./user";
 
 export default function Document() {
   return (
@@ -11,3 +12,4 @@ export default function Document() {
     </Html>
   );
 }
+

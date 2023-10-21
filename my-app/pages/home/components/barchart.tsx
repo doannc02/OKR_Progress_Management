@@ -9,6 +9,21 @@ type Props = {
   }[]
 }
 export const BarBasic = ( {props}: {props: Props }) => {
+  function SetColor(dt: { label: string; value: number }[]): string[] {
+    const arrColor: string[] = [];
+    for (const item of dt) {
+        let color = "#007BFF"; 
+        if (item.value < 25) {
+            color = "#DC3545";
+        } else if (item.value <=  50) {
+            color = "#FFC107";
+        } else if (item.value < 75) {
+            color = "#28A745";
+        }
+        arrColor.push(color);
+    }
+    return arrColor;
+}
   const propss = {
     series: [
       {
@@ -18,13 +33,13 @@ export const BarBasic = ( {props}: {props: Props }) => {
     options: {
       chart: {
         type: 'bar',
-        height: 350,
+        height: 150,
       },
       plotOptions: {
         bar: {
           distributed: true,
           borderRadius: 4,
-          horizontal: true,
+          horizontal: false,
         },
       },
       dataLabels: {
@@ -39,17 +54,19 @@ export const BarBasic = ( {props}: {props: Props }) => {
       xaxis: {
         categories: props.data.map((item) => item.label),
       },
+      colors:  SetColor(props.data)
     } as ApexOptions,
   }
 
   const { series, options } = propss
 
   return (
-    <ReactApexChart
+   <div className="overflow-auto">
+     <ReactApexChart
       options={options}
       series={series}
       type='bar'
-     
     />
+   </div>
   )
 }

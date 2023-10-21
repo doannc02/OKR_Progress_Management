@@ -10,47 +10,49 @@ import { Gender } from '@/pages/types/account.type';
 import { Controller } from 'react-hook-form';
 
 type Props = {
-    control : any,
+    control? : any,
     label: string
-    data:  DepartmentView[] | RoleOfId[] | Gender[]
+    data:  DepartmentView[] | RoleOfId[] | Gender[] | []
   }
 export default function  SelectFiled({props}: {props: Props}) {
+    const { label, data, control} = props
+
   const [gender,setGender] = React.useState('');
-    console.log(props, "xxx")
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string);
     console.log(event.target.value)
   };
-console.log(props.control, 'tên control')
+console.log(control, 'tên control')
   return (
     <Box sx={{ minWidth: 120}}>
      <Controller
-     control={props.control}
-     name={props.label}
+     control={control}
+     name={label}
      render={({
         field: { onChange, value, onBlur },
         fieldState: { error },
         formState,
       }) => (
-       <>
-        <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
+       <FormControl sx={{width: "100%"}}>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
+        defaultValue={data[0]?.Id}
          labelId="demo-simple-select-label"
          id="demo-simple-select"
          value={value}
-         label={props.label}
+         label={label}
         onBlur={onBlur}
          onChange={onChange }
      
        >
-         {props.data.map((item: any, i) => {
+         {data.map((item: any, i) => {
             <>{error}</>
             if(item?.Name) return <MenuItem key={item.Id} value={item.Id}>{item.Name}</MenuItem>
             else return <MenuItem key={item.Id} value={item.Id}>{item.Role}</MenuItem>
          }            
          )}
        </Select>
-       </>
+       </FormControl>
 
       )}
      />
@@ -58,22 +60,3 @@ console.log(props.control, 'tên control')
   );
 }
 
-/*
-        <FormControl fullWidth height={"12px"}>
-        <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
-        <Select
-         labelId="demo-simple-select-label"
-         id="demo-simple-select"
-         value={gender}
-         label={props.label}
-
-         onChange={handleChange}
-       >
-         {props.data.map((item: any, i) => {
-            if(item?.Name) return <MenuItem key={item.Id} value={item.Id}>{item.Name}</MenuItem>
-            else return <MenuItem key={item.Id} value={item.Id}>{item.Role}</MenuItem>
-         }            
-         )}
-       </Select>
-      </FormControl> 
-      */

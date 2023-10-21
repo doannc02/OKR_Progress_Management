@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { useQuery } from '@tanstack/react-query';
-import { IOkr, keyResults, objectives } from '@/pages/types/okr.type';
+import {  keyResults, objectives } from '@/pages/types/okr.type';
 import { getOkrByIdOkr } from '@/pages/api/okr.api';
 
 const Item = styled(Paper)(({ theme }) => ({

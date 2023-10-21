@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.css-k008qs{
+    display: -webkit-box !important;
+}

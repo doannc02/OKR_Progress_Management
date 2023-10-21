@@ -276,8 +276,6 @@ export default function User() {
             columns={columns}
             editMode="row"
             rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
             //loading={!!isLoading}
             loading={getUseQuery.isLoading}
@@ -287,7 +285,7 @@ export default function User() {
             slotProps={{
               toolbar: { setRows, setRowModesModel },
             }}
-           paginationModel={{pageSize: 25, page: pageCurrent}}
+           paginationModel={{pageSize: 50, page: pageCurrent}}
            // rowCount={getUseQuery.data.data.totalRecords}
            rowCount={113}
             onPaginationModelChange={async(props) => { setPageCurrent(props.page); setPageSize(props.pageSize);

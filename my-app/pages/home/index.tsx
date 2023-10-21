@@ -1,14 +1,17 @@
-import Header from "@/components/header";
+
 import { Grid } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import * as React from "react";
-import CollapsibleTable from "../okrs";
+
 import { IUser } from "../types/user.type";
 import dynamic from "next/dynamic";
 import User from "../user";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import ProjectTabs from "./components/projectsTap";
+import ListRanking from "./components/listRanking";
+import PersistentDrawerLeft from "@/components/main/main";
 
 const { BarBasic } = {
   BarBasic: dynamic(
@@ -18,39 +21,6 @@ const { BarBasic } = {
   ),
 };
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "fullName",
-    headerName: "Họ Tên",
-    width: 250,
-    editable: true,
-  },
-  {
-    field:
-      "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-    headerName: "avatar",
-    width: 150,
-    type: "image",
-    editable: true,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    type: "string",
-    width: 200,
-    editable: true,
-  },
-  {
-    field: "role",
-    headerName: "Role",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
 // list data rank user
 export function ListData({ props }: { props: IUser }) {
   console.log(props, "hehe");
@@ -93,6 +63,44 @@ export default function Home() {
       label: "nameA",
       value: 70,
     },
+    {
+      label: "nameA",
+      value: 10,
+    },
+    {
+      label: "nameA",
+      value: 50,
+    },
+    {
+      label: "nameA",
+      value: 90,
+    },
+    {
+      label: "nameA",
+      value: 70,
+    },
+    {
+      label: "nameA",
+      value: 10,
+    },
+    {
+      label: "namec",
+      value: 50,
+    },
+    {
+      label: "namea",
+      value: 30,
+    },
+    {
+      label: "nameb",
+      value: 90,
+    },
+  ];
+  const dtProgress = [
+    {
+      label: "nameA",
+      value: 10,
+    }
   ];
 
   const [domLoaded, setDomLoaded] = React.useState(false);
@@ -120,17 +128,16 @@ export default function Home() {
   const dtBarChart = {
     height: 450, data: dtChart
   }
- if(isAuthenticated && domLoaded){
+  
+const MainHome : React.ElementType  =() => {
   return (
-    <div style={{ overflowY: "hidden" }}>
-      <div style={{ width: "100%", position: "fixed", zIndex: "999"}}>
-        <Header />
-      </div>
-      <div style={{position: "relative", height: "80%", marginTop: "3%" }}>
+     <div>
+
+      <div style={{position: "relative", height: "80%" }}>
         <Grid container spacing={2} zIndex={10000}>
           <Grid item xs={6}>
             <div style={boxShadowStyle}>
-            <div style={{zIndex: 999,overflowX: "hidden", overflowY: "hidden", height: "100%" }}>
+            <div style={{zIndex: 999,overflowX: "hidden", overflowY: "hidden", height: "100%", width:"100%" }}>
               <BarBasic props={ dtBarChart } />
             </div>
             </div>
@@ -145,20 +152,27 @@ export default function Home() {
           <Grid item xs={6}>
             <div style={boxShadowStyle}>
               <div style={{ overflowY: "auto", height: "98%" }}>
-               {/* <ListData props={data} />  */}
+                <ListRanking/>
               </div>
             </div>
           </Grid>
           <Grid item xs={6}>
             <div style={boxShadowStyle}>
               <div style={{ overflowY: "auto", height: "98%" }}>
-                <CollapsibleTable />
+                <ProjectTabs />
               </div>
             </div>
           </Grid>
         </Grid>
       </div>
     </div>
+  )
+  }
+ if(isAuthenticated && domLoaded){
+  return (
+   
+    <PersistentDrawerLeft title="HOME" children={<MainHome/>}/>
   );
  }
 }
+

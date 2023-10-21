@@ -50,7 +50,6 @@ const LoginForm: React.FC = () => {
       const receivedToken = res.data.Token;
     await Cookies.set('Token', receivedToken, {expires: 3600})
     await route.push('/home')
-     alert("Đăng nhập thành công!")
     }
     return res;
 }

@@ -29,7 +29,7 @@ const InputFiled = (props: propsValues) => {
           onChange={onChange}
           onBlur={onBlur}
           value={value}   
-         type={(name ==="password") ? "password" : "type"}
+         type={(name ==="password" || name==="confirm_password") ? "password" : "type"}
         />      
         </>
       )}

@@ -12,14 +12,15 @@ import ButtonCustom from "../component/buttonOutLine";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledAccordions from "../component/selectOption";
-import { ApiLogin, GetDepartmentForRegister } from "../../api/account.api";
+import { ApiLogin, ApiRegister, GetDepartmentForRegister, requestRegister } from "../../api/account.api";
 import SelectFiled from "../component/selectField";
 import { RoleOfId } from "@/pages/types/role.type";
 import { useEffect, useState } from "react";
 import { DepartmentView } from "@/pages/types/department.type";
-import DateTimePickerControl from "@/components/controls/datetimePicker";
+import moment from "moment"
 import dynamic from "next/dynamic";
 import { Gender } from "@/pages/types/account.type";
+
 
 const RegisterForm: React.FC = () => {
   const schema = z.object({
@@ -36,12 +37,15 @@ const RegisterForm: React.FC = () => {
       .string()
       .nonempty("Trường này là bắt buộc!")
       .refine((value) => value.length >= 6, "Mật khẩu tối thiểu 6 kí tự"),
-      Birthday: z.date(),
-      Department:  z.string().nonempty("hhh"),
-      Role:  z.string(),
-      Gender:  z.string(),
+    Birthday:z
+    .string()
+    .nonempty("Trường này là bắt buộc!"),
+    Department: z.number(),
+    Role: z.number(),
+    Gender: z.number(),
   });
   let myDate: Date = new Date();
+  let dtDate = moment(myDate).format("yyyy-MM-dd HH:mm:ss");
   const route = useRouter();
   type IFormInput = z.infer<typeof schema>;
   const {
@@ -54,12 +58,12 @@ const RegisterForm: React.FC = () => {
       username: "",
       password: "",
       confirm_password: "",
-      Birthday: myDate,
-      Department: "",
-      Role: "",
-      Gender: "",
+      Birthday: "",
+      Department: 3,
+      Role: 2,
+      Gender: 1,
     },
-    mode: "onChange", 
+    mode: "onBlur",
     reValidateMode: "onBlur",
     resolver: zodResolver(schema),
   });
@@ -74,32 +78,38 @@ const RegisterForm: React.FC = () => {
     ),
   };
 
+  console.log("errors", errors);
+
   //data gender
-  const dtGender : Gender[] = [
+  const dtGender: Gender[] = [
     {
-        Name: "Nam",
-        Id: 1
-      },
-      {
-        Name: "Nữ",
-        Id: 2
-      }
-  ]
+      Name: "Nam",
+      Id: 1,
+    },
+    {
+      Name: "Nữ",
+      Id: 2,
+    },
+  ];
+  //method register
+  const HandleRegister = async(dtInput : requestRegister) => {
+    const res = await ApiRegister(dtInput);
+    console.log(res.data)
+  }
 
   // method submit
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data, "sumbit day nay");
-    const dt: IFormInput = {
-      fullname: data.fullname,
-      username: data.username,
-      password: data.password,
-      confirm_password: data.confirm_password,
-      Birthday: data.Birthday,
-      Department: data.Department,
-      Role: data.Role,
-      Gender: data.Gender
-    };
-    console.log(dt, "data nay")
+    const dtRequest : requestRegister = {
+        fullName: data.fullname,
+        email: data.username,
+        roleOfUserId: data.Role,
+        departmentId: data.Department,
+        password: data.password,
+        gender: data.Gender,
+        birthday: data.Birthday
+    }
+    HandleRegister(dtRequest)
   };
 
   const [RoleOfIds, setRoleOfIds] = useState<RoleOfId[]>([]);
@@ -128,7 +138,7 @@ const RegisterForm: React.FC = () => {
           alignItems={"center"}
           className="flex w-1/2  relative border-r-2 bg-sky-500"
         >
-             <Typography
+          <Typography
             fontSize={24}
             fontWeight={600}
             className="absolute left-39 top-20"
@@ -136,23 +146,45 @@ const RegisterForm: React.FC = () => {
             Contact Details
           </Typography>
           <Box className="absolute w-5/6 pt-20 mt-5 top-20 h-3/5">
-            <Stack  height={"425px"}  direction={"column"} justifyContent={"space-around"}>
+            <Stack
+              height={"385px"}
+              direction={"column"}
+              justifyContent={"space-around"}
+            >
               <Box className="pb-10 h-30">
-                <SelectFiled props={{control: control, label: "Gender", data: dtGender }} />
-              </Box>
-              <Box className="pb-10  h-30">
-                <DateTimePickerControl />
-              </Box>
-              <Box className="pb-10  h-30">
                 <SelectFiled
-                  props={{ control: control, label: "Department", data: Departments }}
+                  props={{ control: control, label: "Gender", data: dtGender }}
                 />
               </Box>
               <Box className="pb-10  h-30">
-                <SelectFiled props={{control: control, label: "Role", data: RoleOfIds }} />
+                <DateTimePickerControl props={{name: "Birthday", control: control}} />
               </Box>
+              <Box className="pb-10  h-30">
+                <SelectFiled
+                  props={{
+                    control: control,
+                    label: "Department",
+                    data: Departments,
+                  }}
+                />
+              </Box>
+              <Box className="  h-30">
+                <SelectFiled
+                  props={{ control: control, label: "Role", data: RoleOfIds }}
+                />
+              </Box>
+          
             </Stack>
+            <Link href='/account/login' className="float-right">
+                    Tới trang đăng nhập.
+            </Link>
           </Box>
+          <Box className="flex-1 text-center mb-10">
+   
+            </Box>
+        
+                 
+      
         </Box>
         {/* right component */}
         <Box
@@ -175,19 +207,23 @@ const RegisterForm: React.FC = () => {
             General Information
           </Typography>
           <Box className="absolute w-5/6 pt-20 mt-5 top-20">
-            <Stack height={"380px"} direction={"column"} justifyContent={"space-between"}>
+            <Stack
+              height={"380px"}
+              direction={"column"}
+              justifyContent={"space-between"}
+            >
               <Box className="h-22">
                 <InputFiled control={control} name="fullname" />
               </Box>
               <Box className="h-22">
-                <InputFiled  control={control} name="username" />
+                <InputFiled control={control} name="username" />
               </Box>
               <Box className="h-22">
                 <InputFiled control={control} name="password" />
               </Box>
               <Box className="h-22">
                 <InputFiled control={control} name="confirm_password" />
-              </Box>             
+              </Box>
             </Stack>
             <Box className="float-right pb-5">
               <Link href="/">Quên mật khẩu?</Link>
@@ -220,4 +256,3 @@ const RegisterForm: React.FC = () => {
   );
 };
 export default RegisterForm;
-

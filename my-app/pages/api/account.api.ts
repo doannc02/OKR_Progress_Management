@@ -8,6 +8,21 @@ export const ApiLogin = (LoginName: string, Password: string) => {
     })
 }
 
+export  type  requestRegister =  {
+        fullName: string ,
+        email: string,
+        gender: number,
+        password: string,
+        roleOfUserId: number,
+        departmentId: number,
+        birthday: string
+    }
+
+export const ApiRegister = (user : requestRegister) => {
+     return api.post<string>('user/register', {user: user})
+}
+
+
 export const GetDepartmentForRegister = () => {
     return api.get<DisplayControlRegister>('register');
 }
