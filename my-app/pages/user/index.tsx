@@ -27,9 +27,6 @@ import { getUsers, updateUser } from '../api/user.api';
 import { get } from 'http';
 // import { IUserFilter } from '../types/user.type';
 
-
-
-
 interface EditToolbarProps {
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
