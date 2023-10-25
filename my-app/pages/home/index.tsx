@@ -3,7 +3,6 @@ import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import * as React from "react";
-
 import { IUser } from "../types/user.type";
 import dynamic from "next/dynamic";
 import User from "../user";
@@ -95,12 +94,6 @@ export default function Home() {
       label: "nameb",
       value: 90,
     },
-  ];
-  const dtProgress = [
-    {
-      label: "nameA",
-      value: 10,
-    }
   ];
 
   const [domLoaded, setDomLoaded] = React.useState(false);
