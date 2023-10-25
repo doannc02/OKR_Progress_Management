@@ -63,8 +63,7 @@ export default function PersistentDrawerLeft({children, title} : {children: Reac
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+    <div className="flex">
       <PrimarySearchAppBar title={title} open={open} callback={handleDrawerOpen}/>
       <Drawer
         sx={{
@@ -112,10 +111,10 @@ export default function PersistentDrawerLeft({children, title} : {children: Reac
           ))}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main className='h-screen w-screen overflow-x-hidden' open={open}>
         <DrawerHeader />
        {children}
       </Main>
-    </Box>
+    </div>
   );
 }

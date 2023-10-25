@@ -70,7 +70,7 @@ export default function User() {
   const [rows, setRows] = React.useState<GridRowsProp >([]);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
   const [pageCurrent, setPageCurrent] = React.useState<number>(1);
-  const [pageSize, setPageSize] = React.useState<number>(25);
+  const [pageSize, setPageSize] = React.useState<number>(10);
   const getAll = async (_page: number) => {
     setIsLoading(true);
     const res = await getUsers(_page, pageSize).finally(() => setIsLoading(false));
@@ -102,9 +102,8 @@ export default function User() {
   };
   // get
  const getUseQuery = useQuery(
-   ["get", pageCurrent],  () => getAll(pageCurrent),  
+   ["user", pageCurrent],  () => getAll(pageCurrent),  
    {staleTime: 0,
-    retry: 1,
     onSuccess: (data: any) => {
       console.log(data.data.Data, "success");
     },
@@ -285,7 +284,8 @@ export default function User() {
             slotProps={{
               toolbar: { setRows, setRowModesModel },
             }}
-           paginationModel={{pageSize: 50, page: pageCurrent}}
+            pageSizeOptions={[10,25,50,100]}
+           paginationModel={{pageSize: pageSize, page: pageCurrent}}
            // rowCount={getUseQuery.data.data.totalRecords}
            rowCount={113}
             onPaginationModelChange={async(props) => { setPageCurrent(props.page); setPageSize(props.pageSize);

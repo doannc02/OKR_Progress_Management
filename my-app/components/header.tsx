@@ -256,7 +256,7 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
           >
             {title}
           </Typography>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -264,7 +264,7 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
