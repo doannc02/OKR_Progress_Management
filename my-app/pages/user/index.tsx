@@ -72,24 +72,24 @@ export default function User() {
     setIsLoading(true);
     const res = await getUsers(_page, pageSize).finally(() => setIsLoading(false));
     console.log(res, 'day nay')
-   // setRows(res);
+    setRows(res.data.Data);
     return res;
   };
   const update = async (id: string, name: string) => {
     return await updateUser(id, name);
   };
+
   //dung useEffect call api
- 
   const [isLoading, setIsLoading] = React.useState<Boolean>(false);
- /* React.useEffect(() => {
-    setIsLoading(true);
-    const timeOut = setTimeout(() => {
-      getAll(pageCurrent);
-      setIsLoading(false);
-    }, 3000);
-    return () => clearTimeout(timeOut);
-  }, []);
-*/
+  // React.useEffect(() => {
+  //   setIsLoading(true);
+  //   const timeOut = setTimeout(() => {
+  //     getAll(pageCurrent);
+  //     setIsLoading(false);
+  //   }, 3000);
+  //   return () => clearTimeout(timeOut);
+  // }, []);
+
 
   // tanstack query
   type paramsUser = { _page: number; _pageSize: number };
@@ -122,16 +122,10 @@ export default function User() {
       onError: (error: any) => {
         console.log(error);
       },
-    }
+      
+    },
+
   );
-  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
-    params,
-    event
-  ) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -165,11 +159,6 @@ export default function User() {
     let name = newRow.FullName.toString();
     updateMutation.mutate({ id, name });
     return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-    console.log("hehe", newRowModesModel, "j");
   };
 
   const [paginationModel, setPaginationModel] = React.useState({
@@ -286,9 +275,9 @@ export default function User() {
            // rowCount={getUseQuery.data.data.totalRecords}
            rowCount={113}
             onPaginationModelChange={async(props) => { setPageCurrent(props.page); setPageSize(props.pageSize);
-              /*
-              const res = await getAll(pageCurrent); setRows(res.data.data);
-                                    console.log(props.page, pageCurrent) */
+             
+              // const res = await getAll(pageCurrent); setRows(res.data.Data);
+              //                       console.log(props.page, pageCurrent) 
             }}
             pagination 
             getRowId={(row) => row.Id}

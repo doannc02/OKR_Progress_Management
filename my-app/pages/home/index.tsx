@@ -99,14 +99,11 @@ export default function Home() {
   const [domLoaded, setDomLoaded] = React.useState(false);
   const [data, setData] = React.useState<IUser>();
   const router = useRouter();
-  const isAuthenticated = typeof window !== "undefined" && !!Cookies.get("Token");
+  
 
   React.useEffect(() => {
     setDomLoaded(true);
-    if (!isAuthenticated) {
-      router.push("/account/login");
-    }
-  }, [isAuthenticated, router]);
+  }, [router]);
 
   
   const boxShadowStyle = {
@@ -161,9 +158,8 @@ const MainHome : React.ElementType  =() => {
     </div>
   )
   }
- if(isAuthenticated && domLoaded){
+ if(domLoaded){
   return (
-   
     <PersistentDrawerLeft title="HOME" children={<MainHome/>}/>
   );
  }

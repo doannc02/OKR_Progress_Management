@@ -1,17 +1,10 @@
-'use client'
-
 import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useDebounce } from "@/hooks/useDebounce"
-import { searchOkrByEmail } from '@/pages/api/okr.api'
 
 const Search = ({ search, callback }: { search?: string, callback : Function }) => {
-  const router = useRouter()
   const initialRender = useRef(true)
-    // xu ly tim kiem okrs theo email
- 
   const [text, setText] = useState(search)
-  const query = useDebounce(text, 750)
+  const query = useDebounce(text,500)
 
   useEffect(() => {
     if (initialRender.current) {
@@ -22,7 +15,6 @@ const Search = ({ search, callback }: { search?: string, callback : Function }) 
     if (!query) {
         callback({Page: 1});
     } else {
-     console.log(query, "text input search")
     callback({ Email: query,Page: 1});
     }
   }, [query])

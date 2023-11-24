@@ -5,6 +5,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />   
+      <title>NCD</title>
       <body >
         <Main />
         <NextScript />

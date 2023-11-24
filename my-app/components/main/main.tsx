@@ -86,7 +86,7 @@ export default function PersistentDrawerLeft({children, title} : {children: Reac
         </DrawerHeader>
         <Divider />
         <List>
-          {['home', 'okr', 'okrs', 'Checkin cá nhân'].map((text, index) => (
+          {['home', 'okr', 'okrs', 'checkin'].map((text, index) => (
             <ListItem key={text} disablePadding onClick={() => {route.push(`/${text}`)}}>
               <ListItemButton>
                 <ListItemIcon>

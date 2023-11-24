@@ -12,8 +12,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledAccordions from "../component/selectOption";
 import { ApiLogin } from "../../api/account.api";
-import Cookies from "js-cookie";
-
+import { errorMsg, successMsg } from "@/helper/message";
+import { setCmsToken } from "@/utils/token";
+import { useMutation } from "@tanstack/react-query";
 
 const LoginForm: React.FC = () => {
   const schema = z.object({
@@ -29,6 +30,7 @@ const LoginForm: React.FC = () => {
   const route = useRouter();
   type IFormInput = z.infer<typeof schema>;
   const {
+    setError,
     handleSubmit,
     formState: { errors },
     control,
@@ -45,29 +47,23 @@ const LoginForm: React.FC = () => {
   // method call api login 
   const handleLogin = async(dt : IFormInput) => {
    const res = await ApiLogin(dt.username, dt.password);
-    console.log(res.data)
-    if(res.data) {
-      const receivedToken = res.data.Token;
-    await Cookies.set('Token', receivedToken, {expires: 3600})
-    await route.push('/home')
-    }
     return res;
 }
-// useQuery
-// const loginUseQuery = useMutation(["submitLogin"], ({username,password} : {username: string, password: string}) => handleLogin({username, password}),  {
-//   retry: 1,
-//   onSuccess: (data) => {
-//     console.log(data,"jjhjjj")
-//     const receivedToken = data.data.Token;
-//     Cookies.set('Token', receivedToken, {expires: 3600})
-//     route.push('/home')
-//     alert("Đăng nhập thành công!")
-//   },
-//   onError: (error: any) => {
-//     console.log(error);
-//     alert("Ẹmail hoặc mật khẩu không đúng!")
-//   }
-//  } );
+
+const loginUseQuery = useMutation(["submitLogin"], ({username,password} : {username: string, password: string}) => handleLogin({username, password}),  {
+  retry: 1,
+  onSuccess: async (data : any) => {
+     successMsg("Đăng nhập thành công!")
+    const receivedToken = await data.data.Data.Token;
+   await setCmsToken(receivedToken);
+   await route.push('/home')
+    
+  },
+  onError: (error: any) => {
+    console.log(error);
+    errorMsg(error.data.Message, setError)
+  }
+ } );
 
 
 // method submit login
@@ -77,7 +73,7 @@ const LoginForm: React.FC = () => {
       username: data.username,
       password: data.password
     }
-    await handleLogin(dt);
+    await loginUseQuery.mutate(data);
   };
 
   return (

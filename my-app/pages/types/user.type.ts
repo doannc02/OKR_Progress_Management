@@ -3,7 +3,7 @@ data: ResUser[]
 }
 
 export interface IUser {
-  data: DataDTO
+  Data: DataDTO
 }
 
 // export type IUserFilter = Pick<

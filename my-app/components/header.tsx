@@ -21,6 +21,9 @@ import { useRouter } from 'next/router';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
+import Cookies from 'js-cookie';
+import { removeCmsToken } from '@/utils/token';
+import { successMsg } from '@/helper/message';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -88,8 +91,10 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
     handleMobileMenuClose();
   };
 
-  const handleLogout = () => {
-    route.push('/account/login')
+  const handleLogout = async() => {
+    await route.push('/account/login');
+    await removeCmsToken();
+    await successMsg("Đăng xuất thành công!!")
     setAnchorEl(null);
     handleMobileMenuClose();
   }
@@ -268,7 +273,7 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={2} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
@@ -277,7 +282,7 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={1} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
