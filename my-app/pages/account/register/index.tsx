@@ -1,9 +1,4 @@
-import { FcGoogle } from "react-icons/fc";
-import { FaApple } from "react-icons/fa";
 import { useRouter } from "next/router";
-import image from "@/public/imgs/imageLeft.png";
-import imageRegister from "@/public/imgs/register.jpg";
-import Image from "next/image";
 import InputFiled from "../component/inputFiled";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
@@ -12,14 +7,15 @@ import ButtonCustom from "../component/buttonOutLine";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledAccordions from "../component/selectOption";
-import { ApiLogin, ApiRegister, GetDepartmentForRegister, requestRegister } from "../../api/account.api";
+import { ApiRegister, GetDepartmentForRegister, requestRegister } from "../../api/account.api";
 import SelectFiled from "../component/selectField";
 import { RoleOfId } from "@/pages/types/role.type";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DepartmentView } from "@/pages/types/department.type";
 import moment from "moment"
 import dynamic from "next/dynamic";
 import { Gender } from "@/pages/types/account.type";
+import { useQuery } from "@tanstack/react-query";
 
 
 const RegisterForm: React.FC = () => {
@@ -78,8 +74,6 @@ const RegisterForm: React.FC = () => {
     ),
   };
 
-  console.log("errors", errors);
-
   //data gender
   const dtGender: Gender[] = [
     {
@@ -94,7 +88,6 @@ const RegisterForm: React.FC = () => {
   //method register
   const HandleRegister = async(dtInput : requestRegister) => {
     const res = await ApiRegister(dtInput);
-    console.log(res.data)
   }
 
   // method submit
@@ -115,16 +108,13 @@ const RegisterForm: React.FC = () => {
   const [RoleOfIds, setRoleOfIds] = useState<RoleOfId[]>([]);
   const [Departments, setDepartments] = useState<DepartmentView[]>([]);
   const GetDataDisplay = async () => {
-    const res = await GetDepartmentForRegister();
-    setRoleOfIds(res.data.RoleOfUser);
-    setDepartments(res.data.DepartmentViewModel);
-    console.log(res.data.DepartmentViewModel, "cmm");
-    console.log(Departments, "kkjlk");
+    return  await GetDepartmentForRegister();
+    // setRoleOfIds(res?.data?.RoleOfUser);
+    // setDepartments(res?.data?.DepartmentViewModel);
+    // console.log(res.data.DepartmentViewModel, "cmm");
+    // console.log(res.data.DepartmentViewModel, "kkjlk");
   };
-  useEffect(() => {
-    GetDataDisplay();
-  }, []);
-
+  const data = useQuery(['getDataRegister'], () => GetDataDisplay())
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -136,7 +126,7 @@ const RegisterForm: React.FC = () => {
           flexDirection={"column"}
           justifyContent={"space-around"}
           alignItems={"center"}
-          className="flex w-1/2  relative border-r-2 bg-sky-500"
+          className="flex w-1/2  relative border-r-2 bg-white "
         >
           <Typography
             fontSize={24}
@@ -175,9 +165,11 @@ const RegisterForm: React.FC = () => {
               </Box>
           
             </Stack>
-            <Link href='/account/login' className="float-right">
+          <div className="text-sm font-bold">
+          <Link href='/account/login' className="float-right">
                     Tới trang đăng nhập.
             </Link>
+          </div>
           </Box>
           <Box className="flex-1 text-center mb-10">
    

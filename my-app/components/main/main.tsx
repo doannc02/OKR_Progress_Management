@@ -48,10 +48,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft({children, title} : {children: React.ReactNode, title: string}) {
+export default function PersistentDrawerLeft({children, title} : {children: React.ReactElement, title: string}) {
   const theme = useTheme();
   const route = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,8 +99,8 @@ export default function PersistentDrawerLeft({children, title} : {children: Reac
         </List>
         <Divider />
         <List>
-          {['Lịch Checkin', 'Cửa hàng', 'Phiên bản'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          {['schedule', 'store', 'versions'].map((text, index) => (
+            <ListItem key={text} disablePadding onClick={() => {route.push(`/${text}`)}}>
               <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -111,7 +111,8 @@ export default function PersistentDrawerLeft({children, title} : {children: Reac
           ))}
         </List>
       </Drawer>
-      <Main className='h-screen w-screen overflow-x-hidden' open={open}>
+      <Main sx={{    backgroundColor: '#DCDCDC'
+}} className='h-screen w-screen overflow-hidden' open={open}>
         <DrawerHeader />
        {children}
       </Main>

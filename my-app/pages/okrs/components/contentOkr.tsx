@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function BasicStack() {
+const BasicStack = () => {
     type params = {
         okrId: number | string,
   userId: number | string,
@@ -60,3 +60,4 @@ export default function BasicStack() {
     
   );
 }
+export default React.memo(BasicStack)

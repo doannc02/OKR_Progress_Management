@@ -101,8 +101,8 @@ export default function User() {
  const getUseQuery = useQuery(
    ["user", pageCurrent],  () => getAll(pageCurrent),  
    {staleTime: 0,
-    onSuccess: (data: any) => {
-      console.log(data.data.Data, "success");
+    onSuccess: (_) => {
+      console.log(getUseQuery.data, "success");
     },
     onError: (error: any) => {
       console.log(error);
@@ -256,7 +256,7 @@ export default function User() {
         >
           <DataGrid
             paginationMode='server'
-           rows={getUseQuery.data.data.Data}
+           rows={getUseQuery.data.data.Data ?? []}
             //rows={rows}
             columns={columns}
             editMode="row"

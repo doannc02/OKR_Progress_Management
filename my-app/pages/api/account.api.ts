@@ -19,7 +19,7 @@ export  type  requestRegister =  {
     }
 
 export const ApiRegister = (user : requestRegister) => {
-     return api.post<string>('user/register', {user: user})
+     return api.post<string>('User/Register', {user: user})
 }
 
 

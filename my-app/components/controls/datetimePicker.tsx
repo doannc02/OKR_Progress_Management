@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import moment from "moment";
 import { DatePicker } from "@mui/x-date-pickers";
-import {  TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 interface propsValues {
   name: string;
   control: any;
@@ -29,16 +29,20 @@ export default function DateTimePickerControl({
         formState,
       }) => (
         <>
-        <TextField
-          type="datetime-local"
-          className="w-full h-13"
-          label={name}
-          helperText={error ? error.message : null}
-          error={!!error}
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}   
-        />      
+          <TextField
+            type="datetime-local"
+            className="w-full h-13"
+            label={name}
+            helperText={error ? error.message : null}
+            error={!!error}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            placeholder={undefined} // Đặt giá trị placeholder là undefined
+          />
         </>
       )}
     />

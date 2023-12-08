@@ -1,58 +1,64 @@
-import { colors } from "@mui/material";
-import { ApexOptions } from "apexcharts";
-import ReactApexChart from "react-apexcharts";
+import React from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { convertDate } from '@/helper/date';
+import { ListCheckInOKr } from '@/service/checkin/type';
 
-type Props = {
-  height: number;
-  data: {
-    label: string;
-    value: number;
-  }[];
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: true, // Bắt đầu từ giá trị 0
+    },
+  },
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Lịch sử check-in',
+    },
+  },
 };
-export const BarBasic = ({ props }: { props: Props }) => {
 
-  const propss = {
-    series: [
+const ChartLine = ({arrData}: {arrData: ListCheckInOKr[]}) => {
+  const convertedArrData = Array.isArray(arrData) ? arrData : [];
+  console.log(convertedArrData, Array.isArray(convertedArrData), "arrData");
+
+  const labels = convertedArrData.map(item => convertDate(item.StartDate.toString()));
+  const data = {
+    labels,
+    datasets: [
       {
-        data: props.data.map((item) => item.value),
+        label: 'OKR percent',
+        data: convertedArrData.map(item => item.Okrpercent),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
-    dataLabels: {
-        enabled: false
-      },
-    options: {
-      chart: {
-        type: "area",
-        height: 150,
-      },
-      plotOptions: {
-        bar: {
-          distributed: true,
-          borderRadius: 4,
-          horizontal: false,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        offsetX: 0,
-        offsetY: 0,
-        style: {
-          fontSize: "12px",
-          colors: ["#fff"],
-        },
-      },
-      xaxis: {
-        categories: props.data.map((item) => item.label),
-      },
-      
-    } as ApexOptions,
   };
 
-  const { series, options } = propss;
-
-  return (
-    <div className="overflow-hidden">
-      <ReactApexChart options={options} series={series} type="area" />
-    </div>
-  );
+  return <Line height={100} options={options} data={data} />;
 };
+export default ChartLine

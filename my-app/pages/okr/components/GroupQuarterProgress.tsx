@@ -33,8 +33,10 @@ export default function GroupQuarterProgress({
     <Stack
       direction="row"
       spacing={2}
+      alignContent={"center"}
       justifyContent={"space-around"}
       width={"50%"}
+      className="mr-5"
     >
       {!!props.dataQuarter ? <div className="w-1/3 flex justify-between">
         <Checkbox disabled={!!props.isDisableControls} defaultChecked={checkQuarter1}/>
@@ -47,7 +49,7 @@ export default function GroupQuarterProgress({
         <InputLabel></InputLabel>
         <InputLabel></InputLabel>
       </div>}
-      <div className="w-2/3 flex justify-between">
+      <div className="w-2/3 flex justify-between items-center">
         <div className={!!props.isDisableControls ? "ml-32 w-2/3": "ml-10 w-1/3"}>
           <LinearProgressWithLabel value={props.Percent ? props.Percent : 0} />
         </div>

@@ -2,7 +2,6 @@ import * as React from 'react';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useEffect } from 'react';
 
 export default function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
   const ChangeProgressColor = (data: number) => {
@@ -17,22 +16,21 @@ export default function LinearProgressWithLabel(props: LinearProgressProps & { v
     }
   };
 
-  const [progress, setProgress] = React.useState(0);
-
-  useEffect(() => {
-    setProgress(props.value);
-  }, [props.value]);
+  const progressColor = ChangeProgressColor(props.value);
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress
-          color={ChangeProgressColor(props.value)}
-          sx={{ height: '15px', borderRadius: '4px',
-          transition: 'width 1s ease-in-out',
-          transform: 'translate3d(0, 0, 0)', }}
+          color={progressColor}
+          sx={{
+            height: '15px',
+            borderRadius: '4px',
+            transition: 'width 1s ease-in-out',
+            transform: 'translate3d(0, 0, 0)',
+          }}
           variant="determinate"
-          value={progress}
+          value={props.value}
         />
       </Box>
       <Box sx={{ minWidth: 35 }}>

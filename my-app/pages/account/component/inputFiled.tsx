@@ -8,8 +8,9 @@ interface propsValues {
 }
 
 const InputFiled = (props: propsValues) => {
+  
   const { name, control } = props;
-  console.log(control, "control input")
+  
   return (
     <Controller
       name={name}

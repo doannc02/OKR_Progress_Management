@@ -87,7 +87,7 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={0}>
         {
             Objectives.map((item,i) => (
-                <div className='my-12'>
+                <div key={i} className='my-12'>
                     <p>{item.Name}</p>
                     <LinearProgressWithLabel  value={item.Percent}/>
                 </div>
@@ -97,7 +97,7 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={1}>
       {
             Objectives1.map((item,i) => (
-                <div className='my-12'>
+                <div key={i} className='my-12'>
                     <p>{item.Name}</p>
                     <LinearProgressWithLabel value={item.Percent}/>
                 </div>

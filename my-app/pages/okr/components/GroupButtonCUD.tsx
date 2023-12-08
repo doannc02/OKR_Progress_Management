@@ -15,15 +15,15 @@ export default function GroupButtonCUD({ props }: { props: props }) {
   return (
     <Stack direction={"row"} sx={{ marginBottom: "12px" }}>
       {!!props.titleAdd ? (
-        <Button variant="outlined" startIcon={<Add />}>
+        <Button  startIcon={<Add />}>
           {props.titleAdd}
         </Button>
       ) : (
         <></>
       )}
-      <Button variant="outlined" color="warning" startIcon={<Edit />}></Button>
+      <Button color="warning" startIcon={<Edit />}></Button>
       <Button
-        variant="outlined"
+      variant="contained"
         color="error"
         startIcon={<DeleteIcon />}
       ></Button>

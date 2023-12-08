@@ -38,3 +38,66 @@
     justify-content: flex-end;
     font-size: 25px;
   }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.App {
+  text-align: center;
+}
+h1{
+  color: rgb(255, 166, 0);
+}
+
+#Calendar {
+  height: 100%;
+  width: 95%;
+  margin: auto;
+  margin-top:50px;
+  margin-bottom: 50px;
+  /* background: yellow; */
+}
+
+.rbc-month-view{
+  flex-basis: 500px !important;
+}
+
+.rbc-toolbar-label {
+  font-weight: bold;
+  font-size: 22px;
+  color: rgb(37, 66, 197)
+}
+
+.rbc-date-cell {
+  color: rgb(15, 114, 226);
+}
+
+.rbc-today {
+  background-color: rgb(196, 226, 250) !important;
+}
+
+@media (max-width: 480px) {
+  .rbc-toolbar {
+    display: block !important;
+  }
+  
+}

@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
-import { InputLabel } from "@mui/material";
+import { Input, InputLabel, Typography } from "@mui/material";
 import SelectFiled from "@/pages/account/component/selectField";
 import { Gender } from "@/pages/types/account.type";
 import { useForm } from "react-hook-form";
@@ -44,8 +44,8 @@ export const MainOKR: React.ElementType = () => {
       {dataFakeOkr.map((item) => (
         <div
             key={item.Id}
-          className="border-2"
-          style={{ overflowY: "hidden", width: "100%" }}
+          className="border-2 bg-white rounded-lg"
+          style={{ overflowY: "scroll", width: "100%", height:"92%", padding: "10px" }}
         >
           <div className="border-b-2">
             <Stack
@@ -163,10 +163,50 @@ export const MainOKR: React.ElementType = () => {
             </Stack>
           </div>
           <div className="border-b-2">
-            <Stack
+            {item.Objectives.map((objective,index) => (
+              <React.Fragment key={objective.Id}>
+                {" "}
+                <Stack
+                  direction={"row"}
+                  alignContent={"center"}
+                  justifyContent={"space-evenly"}
+                  sx={{ 
+                    margin: "30px 5px 10px 5px", 
+                    border: "1px solid #e4e6f6", 
+                    borderRadius: "10px", 
+                    backgroundColor: '#f2f6fc',
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                  }}
+                >
+                  <div className="w-1/2 my-10 h-3/5" >
+                    <InputLabel
+                      sx={{
+                        marginLeft: "5px",
+                        color: "black",
+                        fontWeight: "600",
+                        
+                      }}
+                    >
+                      Objective {index + 1 }:  {objective.ObjectiveName}
+                    </InputLabel>
+                  </div>
+                  <GroupQuarterProgress
+                    props={{
+                      idCurrent: objective.Id,
+                      Percent: objective.ObjectivePercent,
+                      callbackAdd: () => {},
+                      titleAdd: "Key Result",
+                      callbackEdit: () => {},
+                      callbackDelete: () => {},
+                    }}
+                  />
+                
+             
+                </Stack>
+                <Stack
               direction={"row"}
               justifyContent={"space-between"}
-              sx={{ margin: "1%", borderBottom: "1px solid" }}
+              sx={{ margin: "1%", borderBottom: "2px solid #e4e6f6" }}
             >
               <div className="w-1/2 flex justify-center">
                 <InputLabel
@@ -176,7 +216,7 @@ export const MainOKR: React.ElementType = () => {
                     paddingRight: "35px",
                   }}
                 >
-                  Name
+                  Tên kết quả
                 </InputLabel>
               </div>
               <Stack
@@ -209,52 +249,22 @@ export const MainOKR: React.ElementType = () => {
                 </div>
               </Stack>
             </Stack>
-            {item.Objectives.map((objective) => (
-              <React.Fragment key={objective.Id}>
-                {" "}
-                <Stack
-                  direction={"row"}
-                  justifyContent={"space-between"}
-                  sx={{ margin: "1%", borderBottom: "1px solid" }}
-                >
-                  <div className="w-1/2 ml-0">
-                    <InputLabel
-                      sx={{
-                        marginLeft: "5px",
-                        color: "black",
-                        fontWeight: "600",
-                      }}
-                    >
-                      Objective {objective.ObjectiveName}
-                    </InputLabel>
-                  </div>
-                  <GroupQuarterProgress
-                    props={{
-                      idCurrent: objective.Id,
-                      Percent: objective.ObjectivePercent,
-                      callbackAdd: () => {},
-                      titleAdd: "Key Result",
-                      callbackEdit: () => {},
-                      callbackDelete: () => {},
-                    }}
-                  />
-                </Stack>
-                {objective.KeyResults.map((kr) => (
+                {objective.KeyResults.map((kr, index) => (
                   <React.Fragment key={kr.Id}>
                     <Stack
                       direction={"row"}
                       justifyContent={"space-between"}
-                      sx={{ margin: "1%", borderBottom: "1px solid" }}
+                      sx={{ margin: "1%", borderBottom: "1px solid #e4e6f6" }}
                     >
                       <div className="w-1/2 ml-0">
-                        <InputLabel
+                        <Typography
                           sx={{
-                            marginLeft: "20px",
+                            marginLeft: "5px",
                             fontWeight: "600",
                           }}
-                        >
-                          Keyresult {kr.KeyResultName}
-                        </InputLabel>
+                        > 
+                         Keyresult {index + 1}:  {kr.KeyResultName}
+                        </Typography>
                       </div>
                       <GroupQuarterProgress
                         props={{
@@ -273,7 +283,7 @@ export const MainOKR: React.ElementType = () => {
                         <Stack
                           direction={"row"}
                           justifyContent={"space-between"}
-                          sx={{ margin: "1%", borderBottom: "1px solid" }}
+                          sx={{ margin: "1%", borderBottom: "1px solid #e4e6f6" }}
                         >
                           <div className="w-1/2 ml-0">
                             <InputLabel

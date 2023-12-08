@@ -16,7 +16,7 @@ import { errorMsg, successMsg } from "@/helper/message";
 import { setCmsToken } from "@/utils/token";
 import { useMutation } from "@tanstack/react-query";
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.ReactDOM = () => {
   const schema = z.object({
     username: z
       .string()
@@ -82,9 +82,9 @@ const loginUseQuery = useMutation(["submitLogin"], ({username,password} : {usern
       className="flex justify-center items-center bg-slate-400 h-screen w-creen relative"
     >
       <Box className="flex rounded-md bg-white w-3/5 h-4/5 ">
-        <Box className="rounded-md  flex w-1/2 justify-center items-center">
+        <Box className=" rounded-md  flex xl:w-1/2 justify-center items-center">
           <Box className="flex w-full h-full">
-            <Image alt="" className="rounded-l-md" src={image} />
+            <Image alt="" className="rounded-l-md w-full" src={image} />
           </Box>
         </Box>
         <Box
@@ -106,7 +106,7 @@ const loginUseQuery = useMutation(["submitLogin"], ({username,password} : {usern
           >
             Chào mừng đến với Apodio
           </Typography>
-          <Box className="absolute w-5/6 pt-5 mt-10 top-20">
+          <Box className="xl:absolute w-5/6 pt-5 mt-10 top-20">
             <Stack
               direction={"column"}
               justifyContent={"space-around"}

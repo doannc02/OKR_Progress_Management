@@ -2,7 +2,6 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { IUser } from "../types/user.type";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import PersistentDrawerLeft from "@/components/main/main";
 import { InputLabel, Paper, styled } from "@mui/material";
@@ -30,16 +29,13 @@ export default function Okr() {
   const [data, setData] = React.useState<IUser>();
   const router = useRouter();
   const isAuthenticated =
-    typeof window !== "undefined" && !!Cookies.get("Token");
+  
 
   React.useEffect(() => {
-    setDomLoaded(true);
-    if (!isAuthenticated) {
-      router.push("/account/login");
-    }
-  }, [isAuthenticated, router]);
+    setDomLoaded(true)
+  }, []);
 
-  if (isAuthenticated && domLoaded) {
+  if (domLoaded) {
     return (
       <>
         <PersistentDrawerLeft title={"OKR"} children={<MainOKR />} />

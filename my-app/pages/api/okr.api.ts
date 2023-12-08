@@ -1,3 +1,4 @@
+import { authApi, }  from "@/utils/baseHttp";
 import api from "@/utils/baseHttp";
 import { IOkr, ResponseGetMemberList, memberOkr } from "../types/okr.type";
 
@@ -19,12 +20,14 @@ export const getOkrByIdOkr = (
 //   }} );
 // }
 
-export const getMemberListOkr = ( request : {Page: number | string, Email?: string
-}) => {
-  return api.get<ResponseGetMemberList>("Okr/GetMemberListOkr",{ params : {
-    Email: request.Email,
-    Page: request.Page
-  }} );
+export const getMemberListOkr = async( params : {Page: number | string, Email?: string
+}) : Promise<ResponseGetMemberList> => {
+ const {data} =  await authApi({
+    method: 'get',
+    url: `Okr/GetMemberListOkr/`,
+    params
+  } );
+  return data
 }
 
 

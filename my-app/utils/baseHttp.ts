@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import Cookies from "js-cookie";
 import { Router } from "next/router";
 import { getCmsToken } from "./token";
-import { successMsg } from "@/helper/message";
+import { errorMsg, successMsg } from "@/helper/message";
 
-const baseURL = "https://localhost:44309/api/",
+//const baseURL = "https://0a92-222-252-99-253.ngrok-free.app/api/",
+const baseURL = "https:localhost:44309/api/",
   isServer = typeof window === "undefined";
 
 const api = axios.create({
@@ -14,43 +14,6 @@ const api = axios.create({
   },
 });
 
-// api.interceptors.request.use(async (config) => {
-//   if (isServer) {
-
-//   } else {
-//     const token = await Cookies.get("Token");
-
-//     console.log("tokentoken", token, typeof(token));
-
-//     if (token !== 'undefined') {
-//       config.headers["Authorization"] = `Bearer ${token}`;
-//     }else{
-//       await window.location.replace("/account/login");    
-//     }
-    
-//   }
-
-//   return config;
-// });
-
-// api.interceptors.response.use(
-//   (response: AxiosResponse) => {
-//     const { statusCode, message } = response.data;
-//     const config = response.config || {};
-//     if (statusCode === 200 && message === 'token_expired' && !config?.url?.includes('/auth/refreshToken')) {      
-    
-//     }
-//     if(statusCode === 401){
-//        window.location.replace("/account/login");
-//        console.log("401")
-//     }
-//     return response;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
-
 export const middlewareRequest = async (config: any) => {
   const tokenAccess: any = getCmsToken()
 
@@ -59,6 +22,7 @@ export const middlewareRequest = async (config: any) => {
       ...config,
       headers: {
         ...config.headers,
+        'ngrok-skip-browser-warning': '69420',
         'Accept-Language': 'vi',
       },
     }
@@ -68,6 +32,7 @@ export const middlewareRequest = async (config: any) => {
     ...config,
     headers: {
       ...config.headers,
+      'ngrok-skip-browser-warning': '69420',
       'Accept-Language': 'vi',
       Authorization: `Bearer ${tokenAccess}`,
     },
@@ -85,7 +50,9 @@ console.log(error, 'error')
   if (
     status === 401 
   ) {
+    errorMsg("Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập lại")
     window.location.replace('/account/login')
+
     return Promise.reject(error)
   }
 
@@ -95,7 +62,9 @@ export const resTest = async(res : any) => {
   const { config, response } = res
     if(res.data.ErrorCode !== -1){
       console.log(res, "đây này response")
-      return res
+      if(res !== 'undefinded'){
+        return res
+      }else return Promise.reject(res)
     }
    else return Promise.reject(res)
 }

@@ -21,15 +21,14 @@ import { useRouter } from 'next/router';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
-import Cookies from 'js-cookie';
 import { removeCmsToken } from '@/utils/token';
 import { successMsg } from '@/helper/message';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.black, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -242,7 +241,7 @@ const PrimarySearchAppBar : React.FC<ChildProps> = ({callback, open, title}) => 
   const [openn, setOpen] = React.useState(false);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{width: open ? '88%' : "100%"}}>
+      <AppBar position="fixed" sx={{width: open ? '88%' : "100%" }}>
         <Toolbar>
         <IconButton
             color="inherit"

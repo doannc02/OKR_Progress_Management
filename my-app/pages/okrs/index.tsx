@@ -3,8 +3,7 @@ import Stack from "@mui/material/Stack";
 import { getMemberListOkr} from "../api/okr.api";
 import { useQuery } from "@tanstack/react-query";
 import PersistentDrawerLeft from "@/components/main/main";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
+import { Input, Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import InputLabel from "@mui/material/InputLabel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -35,13 +34,9 @@ const MainOKRs: React.ElementType = () => {
   // xy ly lay danh sach
   type params = { Page: number | string; Email?: string };
 
-  const handleGetMemberListOkr = async (Page: params) => {
-    const res = await getMemberListOkr(Page);
-    return res.data;
-  };
   const getOKRs = useQuery({
     queryKey: ["listOKR", query],
-    queryFn: () => handleGetMemberListOkr(query),
+    queryFn: () => getMemberListOkr(query),
     onSuccess: (data: any) => {
       setTotalCounts(data.TotalCounts);
     },
@@ -59,7 +54,7 @@ const MainOKRs: React.ElementType = () => {
           position: "relative",
         }}
       >
-        <div style={{ height: "100%" }} className="mx-2">
+        <div style={{ height: "96%" }} className="mx-2">
           <Stack
             direction={"row"}
             width={"29%"}
@@ -74,13 +69,8 @@ const MainOKRs: React.ElementType = () => {
             />
           </Stack>
           <Stack className="h-full">
-            <Stack
-              className="overflow-y-scroll"
-              height={"88%"}
-              border={"1px solid"}
-              borderRadius={"4px"}
-            >
-              <Stack
+          <Stack
+                className=""
                 paddingLeft={"60px"}
                 paddingRight={"10px"}
                 width={"100%"}
@@ -91,10 +81,10 @@ const MainOKRs: React.ElementType = () => {
                 <Stack
                   direction={"row"}
                   width={"35%"}
-                  justifyContent={"space-around"}
+                  justifyContent={"space-between"}
                 >
-                  <div className="font-bold">Email</div>
-                  <div className="font-bold">Bộ phận</div>
+                  <div className="font-bold ml-20">Email</div>
+                  <div className="font-bold ml-10">Bộ phận</div>
                 </Stack>
                 <Stack
                   direction={"row"}
@@ -104,67 +94,81 @@ const MainOKRs: React.ElementType = () => {
                   <div className="font-bold">Chức vụ</div>
                 </Stack>
               </Stack>
-              {getOKRs.isLoading ? (
+            <Stack
+              className="overflow-y-scroll"
+              height={"88%"}
+              border={"1px solid"}
+              borderRadius={"4px"}
+            >
+             
+              {getOKRs.isFetching ? (
                 <SkeletonOkrs />
               ) : (
                 getOKRs.data?.Data.map((item: memberOkr) => (
-                 <React.Fragment key={item.Id}>
+                 <div key={item.Id} className="m-3">
                   <Accordion
+                         
+                  className=""
                     sx={{
-                      border: "1px solid",
-                      borderRadius: "4px",
-                      margin: "10px",
-                    }}
+                      border: "1px solid #e4e6f6",                 
+                      borderRadius: "20px",                   
+                     }}
                   >
                     <AccordionSummary
+                     sx={{backgroundColor: '#f2f6fc', height:"10vh"  ,   border: "1px solid #e4e6f6", 
+                     borderRadius: "10px", }}
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Stack
+                      <Stack                
                         width={"100%"}
                         direction={"row"}
                         justifyContent={"space-between"}
                       >
-                        <div>{item.FullName}</div>
-                        <Stack
-                          direction={"row"}
-                          width={"35%"}
-                          justifyContent={"space-around"}
-                        >
-                          <div>{item.Email}</div>
-                          <div>{item.DepartmentName}</div>
-                        </Stack>
-                        <Stack
-                          direction={"row"}
-                          width={"15%"}
-                          justifyContent={"space-around"}
-                        >
-                          <div
+                        <div className="w-2/5 ml-10">{item.FullName}</div>
+
+                          <div className="w-2/5">{item.Email}</div>
+                          <div className="w-1/4">{item.DepartmentName}</div>
+    
+                   
+                          {item.AllowCheckIn ? (
+                                 <>
+                                   <div
                             className={
                               item.Role === "Developer"
-                                ? "border-2 p-1 border-violet-800 w-1/2"
-                                : " w-1/2 border-2 p-1 border-red-700"
+                                ? "border-2 p-1 border-violet-800 w-1/6"
+                                : " w-1/6 border-2 p-1 border-red-700"
                             }
                           >
-                            {item.Role}
+                           <p style={{fontSize:"11px"}}> {item.Role}</p>
                           </div>
-                          {item.AllowCheckIn ? (
-                            <Button variant={"contained"} color={"info"}>
-                              Check-in
+                            <Button style={{width:"10%"}} variant={"contained"}  color={"info"}>
+                            <p style={{fontSize:"11px"}}> Check-In</p>
                             </Button>
+                                 </>
                           ) : (
-                            <Button>&nbsp;</Button>
+                            <div
+                            style={{width:"27%"}}
+                            className={
+                              
+                              item.Role === "Developer"
+                                ? "border-2 p-1 border-violet-800"
+                                : "  border-2 p-1 border-red-700"
+                            }
+                          >
+                           <p style={{fontSize:"11px"}}> {item.Role}</p>
+                          </div>
                           )}
-                        </Stack>
                       </Stack>
                     </AccordionSummary>
                     <AccordionDetails
-                      sx={{ borderTop: "1px solid", marginBottom: "5px" }}
+                    
+                      sx={{ marginBottom: "5px"}}
                     >
                       <div
                         className="border-2"
-                        style={{ overflowY: "hidden", width: "100%" }}
+                        style={{ overflowY: "scroll", width: "100%", height: "50vh" }}
                       >
                         <div className="border-b-2">
                           <Stack
@@ -236,7 +240,7 @@ const MainOKRs: React.ElementType = () => {
                                     sx={{
                                       marginLeft: "5px",
                                       color: "black",
-                                      fontWeight: "600",
+                                      fontWeight: "700",
                                     }}
                                   >
                                     Objective {objective.ObjectiveName}
@@ -260,14 +264,14 @@ const MainOKRs: React.ElementType = () => {
                                     }}
                                   >
                                     <div className="w-1/2 ml-0">
-                                      <InputLabel
-                                        sx={{
-                                          marginLeft: "20px",
-                                          fontWeight: "600",
-                                        }}
-                                      >
+                                    <Typography
+                          sx={{
+                            marginLeft: "15px",
+                            fontWeight: "600",
+                          }}
+                        > 
                                         Keyresult {kr.KeyResultName}
-                                      </InputLabel>
+                                      </Typography>
                                     </div>
                                     <GroupQuarterProgress
                                       props={{
@@ -288,14 +292,14 @@ const MainOKRs: React.ElementType = () => {
                                       }}
                                     >
                                       <div className="w-1/2 ml-0">
-                                        <InputLabel
-                                          sx={{
-                                            marginLeft: "30px",
-                                            fontWeight: "400",
-                                          }}
-                                        >
+                                      <Typography
+                          sx={{
+                            marginLeft: "35px",
+                            fontWeight: "300",
+                          }}
+                        > 
                                           Keyresult {kra.ActionName}
-                                        </InputLabel>
+                                        </Typography>
                                       </div>
                                       <GroupQuarterProgress
                                         props={{
@@ -315,12 +319,12 @@ const MainOKRs: React.ElementType = () => {
                       </div>
                     </AccordionDetails>
                   </Accordion>
-                 </React.Fragment>
+                 </div>
                 ))
               )}
             </Stack>
           </Stack>
-          <div className="absolute  bottom-1 right-0">
+          <div className="absolute  bottom-1 right-6">
             {" "}
             <Stack justifyContent={"center"} alignItems={"center"} spacing={2}>
               <Pagination

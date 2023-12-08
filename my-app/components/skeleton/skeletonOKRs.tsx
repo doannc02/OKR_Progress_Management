@@ -2,13 +2,22 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 
-const SkeletonOkrs = () => {
+const SkeletonOkrs = ({isDisplayListKr}: {isDisplayListKr?: boolean}) => {
   const numSkeletons = 10; // Số lượng dòng skeleton
 
   return  (
         <Box>
   {[...Array(numSkeletons)].map((_, index) => (
-    <Skeleton key={index} animation="wave" height="80px" className="m-6"/>
+   <div key={index}>
+   <Skeleton animation="wave" height="160px" className="m-5"/>
+    <>
+    {isDisplayListKr ? <>
+      <Skeleton  animation="wave" height="40px" className="m-1"/>
+   <Skeleton  animation="wave" height="40px" className="m-1"/>
+    </> : <></>}
+    </>
+   </div>
+    
   ))}
 </Box>
   )

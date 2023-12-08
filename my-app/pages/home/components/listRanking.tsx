@@ -1,5 +1,5 @@
+import { ColumnProps, CustomTable } from "@/components/TableCustom";
 import React from "react";
-import { Table } from "@mui/material";
 
 const data = [
   { No: 1, Name: "Đào Hồng Hải", Role: "JQC", Team: "RV1", Star: 34 },
@@ -14,73 +14,37 @@ const data = [
   { No: 10, Name: "Trần Thị Trâm", Role: "JQC", Team: "RV1", Star: 27 },
 ];
 
-import { styled } from '@mui/material/styles';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+const RankingLayout = () => {
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-   
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-export default function CustomizedTables() {
+  
+  const columns = React.useMemo(
+    () =>
+      [
+        {
+          header: "Tên",
+          fieldName: 'Name',
+        },
+        {
+          header: 'Vị trí',
+          fieldName: 'Role',
+        },
+        {
+          header:'Dự án',
+          fieldName: 'Team',
+          styleCell: {
+            width: '250px',
+          },
+        },
+        {
+            header: 'Số sao',
+            fieldName: 'Star',
+          },
+      ] as ColumnProps[],
+    []
+  )
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow >
-            <StyledTableCell align="right">STT</StyledTableCell>
-            
-            <StyledTableCell align="right">Họ Và Tên</StyledTableCell>
-            <StyledTableCell align="right">Vị Trí</StyledTableCell>
-            <StyledTableCell align="right">Phòng Ban</StyledTableCell>
-            <StyledTableCell align="right">Số Sao</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <StyledTableRow key={row.No} className="scroll">
-                <StyledTableCell align="right">{row.No}</StyledTableCell>
-              <StyledTableCell align="right" component="th" scope="row">
-                {row.Name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.Role}</StyledTableCell>
-              <StyledTableCell align="right">{row.Team}</StyledTableCell>
-              <StyledTableCell align="right">{row.Star}</StyledTableCell>
-              
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <CustomTable className='w-full' maxHeight={70} isShowColumnStt={true} data={data} columns={columns}/>
   );
-}
+};
+
+export default RankingLayout;
