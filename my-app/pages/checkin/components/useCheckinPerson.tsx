@@ -30,8 +30,11 @@ export const useCheckinPerson = () => {
             defaultOption
     )
    
-    const totalsKr = data?.Data?.Okrs[0]?.Objectives.TotalsKr??0;
-    const krsUnFinish = data?.Data?.Okrs?.Objectives?.KrsUnFinish ?? 0;
+  const dt = data?.Data?.Okrs??[];
+const dataOkr1 = dt[0];
+const NextTimeCheckIn = data?.Data.NextTimeCheckIn
+const countSchedule = data?.Data.CountCheckInSchedule?? 0 
+const listCheckInOkr = data?.Data.ListCheckInOKr ?? []
     
-    return [ {isLoading, data, methodForm, totalsKr, krsUnFinish}, { onSubmit,onChangeValue } ] as const
+    return [ {isLoading, dataOkr1,NextTimeCheckIn,countSchedule,listCheckInOkr, methodForm}, { onSubmit,onChangeValue } ] as const
 }

@@ -21,7 +21,7 @@ interface Appointment {
 
 const Calendar: React.FC = () => {
   const [ values, handles ] = useSchedules();
-  const { methodForm } = values;
+  const { methodForm, managers } = values;
   const { control } = methodForm; 
   const { onSubmit } = handles;
   const [events, setEvents] = useState<Appointment[]>([]);
@@ -41,6 +41,7 @@ const Calendar: React.FC = () => {
   const handleSlotSelected = (slotInfo: any) => {
     setStart(slotInfo.start);
     setEnd(slotInfo.end);
+    console.log(slotInfo, "slInfo")
     setTitle("");
     setDesc("");
     setOpenSlot(true);
@@ -166,22 +167,21 @@ const Calendar: React.FC = () => {
           onClose={handleClose}
           aria-labelledby="form-dialog-title"
           title="Chọn thời gian để đặt lịch?"
-      >
+      >  
         <form onSubmit={onSubmit}>
         <DialogTitle>{"Chọn thời gian đặt lịch với Manager?"}</DialogTitle>
         <DialogContent sx={{display: "flex",flexDirection: "column" ,justifyContent:"space-evenly", height: "400px"}}>       
-          <CoreAutocomplete required rules={{required: "Phải chọn Manager để đặt lịch!"}} options={[{value: 1, label: "Đoàn NC"}]} control={control} name="SelectManager" />
-          <DatePickerCustom  title="Chọn thời gian bắt đầu" control={control} name="StartDate" format='YYYY-MM_DD' />
-          <DatePickerCustom  title="Chọn thời gian kết thúc" control={control} name="EndDate" format='YYYY-MM_DD' />
+          <CoreAutocomplete required label="Chọn quản lý để đặt lịch"  placeholder="Chọn quản lý để đặt lịch" rules={{required: "Phải chọn Manager để đặt lịch!"}} options={managers??[]} control={control} labelPath="ManagerFullName" valuePath="ManagerId" name="SelectManager" />
+          <DatePickerCustom  title="Chọn thời gian bắt đầu" control={control} name="StartDate" format='YYYY-MM-DDTHH:mm:ss' />
+          <DatePickerCustom  title="Chọn thời gian kết thúc" control={control} name="EndDate" format='YYYY-MM-DDTHH:mm:ss' />
           <CoreCheckbox label="Đặt lịch cho cả năm" name="checkinForYear" control={control} />
         </DialogContent>
         <DialogActions>
         <Button
         type="submit"
-          // onClick={() => {
-          //   setNewAppointment();
-          //   handleClose();
-          // }}
+          onClick={() => {
+            handleClose();
+          }}
         >
           Đặt lịch
         </Button>   

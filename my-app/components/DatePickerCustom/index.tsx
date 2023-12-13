@@ -1,4 +1,5 @@
 import { FormHelperText, TextField } from '@mui/material'
+import { DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -66,7 +67,7 @@ export const DatePickerCustom = (props: DatePickerCustomProps) => {
           field: { onChange, value, ref },
           fieldState: { error },
         }) => (
-          <DatePicker
+          <DateTimePicker
             label={title}
             value={value ? (format ? moment(value, format) : value) : null}
             onChange={(newValue: Moment | null) => {
@@ -87,6 +88,7 @@ export const DatePickerCustom = (props: DatePickerCustomProps) => {
             renderInput={(params: any) => (
               <>
                 <TextField
+                type='datetime-local'
                   {...params}
                   fullWidth
                   variant='outlined'
@@ -106,7 +108,7 @@ export const DatePickerCustom = (props: DatePickerCustomProps) => {
                   value={
                     value
                       ? format && moment(value, format).isValid()
-                        ? moment(value, format)
+                        ? moment(value, format).format('YYYY-MM-DDTHH:mm:ss')
                         : value
                       : null
                   }
